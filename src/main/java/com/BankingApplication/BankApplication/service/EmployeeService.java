@@ -1,14 +1,12 @@
 package com.BankingApplication.BankApplication.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.BankingApplication.BankApplication.dao.BankDao;
 import com.BankingApplication.BankApplication.dao.BranchDao;
 import com.BankingApplication.BankApplication.dao.EmployeeDao;
 import com.BankingApplication.BankApplication.entity.Bank;
@@ -18,7 +16,6 @@ import com.BankingApplication.BankApplication.exception.BankNotFound;
 import com.BankingApplication.BankApplication.exception.BranchNotFoundException;
 import com.BankingApplication.BankApplication.exception.EmployeeNotFoundException;
 import com.BankingApplication.BankApplication.repository.BankRepository;
-import com.BankingApplication.BankApplication.repository.BranchRepository;
 import com.BankingApplication.BankApplication.repository.EmployeeRepository;
 import com.BankingApplication.BankApplication.response.ResponseStructure;
 
@@ -27,9 +24,6 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeDao employeeDao;
-
-	@Autowired
-	private BankDao bankDao;
 
 	@Autowired
 	private BranchDao branchDao;
@@ -216,9 +210,6 @@ public class EmployeeService {
 	}
 
 	/*--------------------------------------------------------------------*/
-
-	@Autowired
-	private BranchDao branchDao1;
 
 	// assign existing employee to the branch
 	public ResponseEntity<ResponseStructure<String>> assignEmpToBranch(int employeeId, int branchId) {

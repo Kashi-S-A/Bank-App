@@ -6,14 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.BankingApplication.BankApplication.entity.Account;
 import com.BankingApplication.BankApplication.entity.Bank;
 import com.BankingApplication.BankApplication.entity.Branch;
 import com.BankingApplication.BankApplication.exception.BranchNotFoundException;
-import com.BankingApplication.BankApplication.repository.AccountRepository;
 import com.BankingApplication.BankApplication.repository.BankRepository;
 import com.BankingApplication.BankApplication.repository.BranchRepository;
-import com.BankingApplication.BankApplication.service.AccountService;
 
 @Repository
 public class BranchDao {

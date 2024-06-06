@@ -2,10 +2,8 @@ package com.BankingApplication.BankApplication.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.BankingApplication.BankApplication.util.IdGeneratorService;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import lombok.Data;
 
@@ -21,9 +20,8 @@ import lombok.Data;
 public class DebitCard {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO,generator = "card")
-	@SequenceGenerator(name = "card",initialValue =10000,sequenceName = "100000")
-	@Column(length = 11,nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "card")
+	@SequenceGenerator(name = "card",sequenceName = "card",allocationSize = 1)
 	private long cardNumber;
 	
 	private int cvv;

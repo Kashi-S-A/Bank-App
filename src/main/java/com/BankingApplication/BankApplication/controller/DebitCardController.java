@@ -30,34 +30,34 @@ public class DebitCardController {
 
 	// get card
 	@GetMapping("/getcard")
-	public ResponseEntity<ResponseStructure<DebitCard>> getDebitCardByCardNumber(@RequestParam int debitCardNumber) {
+	public ResponseEntity<ResponseStructure<DebitCard>> getDebitCardByCardNumber(@RequestParam long debitCardNumber) {
 		return cardService.getCardByCardNumber(debitCardNumber);
 	}
 
 	// update name
 	@PatchMapping("/updatecardname/cardNumber/{cardNumber}")
-	public ResponseEntity<ResponseStructure<DebitCard>> updateCardName(@PathVariable int cardNumber,
+	public ResponseEntity<ResponseStructure<DebitCard>> updateCardName(@PathVariable long cardNumber,
 			@RequestParam String name) {
 		return cardService.updateName(cardNumber, name);
 	}
 
 	// update phone
 	@PatchMapping("/updatecardPhone/cardNumber/{cardNumber}")
-	public ResponseEntity<ResponseStructure<DebitCard>> updateCardPhone(@PathVariable int cardNumber,
+	public ResponseEntity<ResponseStructure<DebitCard>> updateCardPhone(@PathVariable long cardNumber,
 			@RequestParam long phone) {
 		return cardService.updatePhone(cardNumber, phone);
 	}
 
 	// update status
 	@PatchMapping("/updatecardStatus/cardNumber/{cardNumber}")
-	public ResponseEntity<ResponseStructure<DebitCard>> updateCardStatus(@PathVariable int cardNumber,
+	public ResponseEntity<ResponseStructure<DebitCard>> updateCardStatus(@PathVariable long cardNumber,
 			@RequestParam Status status) {
 		return cardService.updateStatus(cardNumber, status);
 	}
 	
 	//delete card
 	@DeleteMapping("/deletecard")
-	public ResponseEntity<ResponseStructure<String>> deleteDebitCard(@RequestParam int cardNumber) {
+	public ResponseEntity<ResponseStructure<String>> deleteDebitCard(@RequestParam long cardNumber) {
 		return cardService.deleteDebitCard(cardNumber);
 	}
 }

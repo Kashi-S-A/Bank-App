@@ -9,4 +9,5 @@ public interface AccountRepository extends JpaRepository<Account, Integer>{
 
 	@Query("SELECT a FROM Account a WHERE a.accountNumber=:accountNumber")
 	public Account getAccountByAccountNumber(long accountNumber);
+	
 }

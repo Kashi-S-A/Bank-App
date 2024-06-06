@@ -1,5 +1,7 @@
 package com.BankingApplication.BankApplication.entity;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,7 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +25,9 @@ import lombok.Setter;
 public class Account {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int accountNumber;
+	@GeneratedValue(strategy = GenerationType.AUTO,generator = "accountNumber")
+	@SequenceGenerator(name = "accountNumber",sequenceName = "account_req",allocationSize = 1)
+	private long accountNumber;
 	
 	private String accountHolderName;
 		
@@ -33,6 +38,7 @@ public class Account {
 	private String email;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Address address;
 	
 	@ManyToOne
@@ -42,4 +48,10 @@ public class Account {
 	@OneToOne
 	@JsonIgnore
 	private DebitCard debitCard;
+	
+	private double balance;
+	
+	@OneToMany
+	@JsonIgnore
+	private List<Statement> statements;
 }

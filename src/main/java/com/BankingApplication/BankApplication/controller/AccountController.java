@@ -1,5 +1,7 @@
 package com.BankingApplication.BankApplication.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.BankingApplication.BankApplication.entity.Account;
 import com.BankingApplication.BankApplication.entity.Branch;
+import com.BankingApplication.BankApplication.entity.Statement;
 import com.BankingApplication.BankApplication.response.ResponseStructure;
 import com.BankingApplication.BankApplication.service.AccountService;
+import com.BankingApplication.BankApplication.service.ExportStatementsExcel;
+import com.BankingApplication.BankApplication.service.SaveAccountStatementsToPDF;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class AccountController {
@@ -72,4 +80,45 @@ public class AccountController {
 		return accountService.deleteAccount(accountNumber);
 	}
 	
+	//update balance
+	@PatchMapping("/updateBalance/accountNumber/{accountNumber}")
+	public String updateBalance(@PathVariable int accountNumber,@RequestParam double balance) {
+		return accountService.updateBalance(accountNumber, balance);
+	}
+	
+	//transfer amount
+	@PutMapping("/transferamount/fromAccountNumber/{fromAccountNumber}/toAccountNumber/{toAccountNumber}")
+	public ResponseEntity<ResponseStructure<Statement>> tranferAmount(@PathVariable int fromAccountNumber,@PathVariable int toAccountNumber,@RequestParam double amount) {
+		return accountService.transferAmount(fromAccountNumber, toAccountNumber, amount);
+	}
+	
+	//get statements
+	@GetMapping("/getstatements")
+	public ResponseEntity<ResponseStructure<List<Statement>>> getAllStatements(@RequestParam int accountNumber) {
+		return accountService.getAllStatements(accountNumber);
+	}
+	
+	@Autowired
+	private ExportStatementsExcel excel;
+	
+	@GetMapping("/sheet/accountNumber/{accountNumber}")
+	public void generateExcelStatementSheet(HttpServletResponse response,@PathVariable int accountNumber) throws IOException {
+		
+		response.setContentType("application/octet-stream");
+		
+		String headerKey="Content-Disposition";
+		String headerValue="attachment;filename=accountTransaction.xls";
+		
+		response.setHeader(headerKey, headerValue);
+		
+		excel.exportDatExcel(accountNumber,response);
+	}
+	
+	@Autowired
+	private SaveAccountStatementsToPDF accountStatementsToPDF;
+	
+	@GetMapping("/statementsPdf")
+	public void SaveAccountStatementsToPDF(@RequestParam int accountNumber) throws FileNotFoundException {
+		accountStatementsToPDF.saveStatementsToPDF(accountNumber);
+	}
 }

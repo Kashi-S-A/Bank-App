@@ -1,13 +1,9 @@
 package com.BankingApplication.BankApplication.repository;
 
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import com.BankingApplication.BankApplication.entity.Branch;
-
-import jakarta.transaction.Transactional;
 
 public interface BranchRepository extends JpaRepository<Branch, Integer>{
 
