@@ -22,7 +22,7 @@ public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long accountNumber;
+	private int accountNumber;
 	
 	private String accountHolderName;
 		
@@ -38,4 +38,8 @@ public class Account {
 	@ManyToOne
 	@JsonIgnore
 	private Branch branch;
+	
+	@OneToOne
+	@JsonIgnore
+	private DebitCard debitCard;
 }

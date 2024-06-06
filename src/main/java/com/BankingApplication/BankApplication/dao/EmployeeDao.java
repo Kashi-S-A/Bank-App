@@ -28,6 +28,7 @@ public class EmployeeDao {
 	public String updateEmployee(Employee employee) {
 		Employee employee1 = employeeRepository.findById(employee.getEmployeeId())
 				.orElseThrow(() -> new EmployeeNotFoundException("Employee with this ID does not exist"));
+		employee.setEmployeeAddress(employee1.getEmployeeAddress());
 		employeeRepository.save(employee);
 		return "updated successfully";
 	}
@@ -59,8 +60,8 @@ public class EmployeeDao {
 	}
 
 	// get employee by id
-	public Employee getEmployeeById(String id) {
-		return employeeRepository.findById(id);
+	public Employee getEmployeeById(int id) {
+		return employeeRepository.findById(id).orElseThrow(()->new EmployeeNotFoundException("employee does not exist"));
 	}
 
 	// get all the employees

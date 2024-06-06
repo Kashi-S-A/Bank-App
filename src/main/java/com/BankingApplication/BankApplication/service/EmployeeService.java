@@ -91,7 +91,7 @@ public class EmployeeService {
 	}
 
 	// get by id
-	public ResponseEntity<ResponseStructure<Employee>> getEmployeeById(String employeeId) {
+	public ResponseEntity<ResponseStructure<Employee>> getEmployeeById(int employeeId) {
 		Employee employee = employeeDao.getEmployeeById(employeeId);
 		if (employee != null) {
 			ResponseStructure<Employee> responseStructure = new ResponseStructure<>();
@@ -218,14 +218,14 @@ public class EmployeeService {
 	/*--------------------------------------------------------------------*/
 
 	@Autowired
-	private BranchRepository branchRepository;
+	private BranchDao branchDao1;
 
 	// assign existing employee to the branch
 	public ResponseEntity<ResponseStructure<String>> assignEmpToBranch(int employeeId, int branchId) {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new EmployeeNotFoundException("Employee with this ID does not exist"));
 
-		Branch branch = branchRepository.findById(branchId)
+		Branch branch = branchDao.getBranchById(branchId)
 				.orElseThrow(() -> new BranchNotFoundException("branch does not found"));
 
 		/*
@@ -244,7 +244,7 @@ public class EmployeeService {
 		ResponseStructure<String> responseStructure = new ResponseStructure<>();
 		try {
 			employeeRepository.save(employee);
-			branchRepository.save(branch);
+			branchDao.saveBranch(branch);
 			
 			responseStructure.setMessage("Success");
 			responseStructure.setData("employee is assigned to the Branch");
@@ -257,9 +257,22 @@ public class EmployeeService {
 
 	// assign new employee to the branch
 	public ResponseEntity<ResponseStructure<String>> assignNewEmployeeToBranch(int branchId, Employee employee) {
-		Branch branch = branchRepository.findById(branchId).orElseThrow(()->new BranchNotFoundException("branch does not exist"));
-			branch.setEmployee(employee);
-			branchRepository.save(branch);
+		Branch branch = branchDao.getBranchById(branchId).orElseThrow(()->new BranchNotFoundException("branch does not exist"));
+			if (branch.getEmployee()==null) {
+				branch.setEmployee(employee);
+				employee.setBranch(branch);
+				employeeDao.saveEmployee(employee);
+				branchDao.updateBranch(branch);
+			} else {
+                Employee employee1= branch.getEmployee();
+                employee1.setBranch(null);
+                employeeDao.updateEmployee(employee1);
+                branch.setEmployee(employee);
+				employee.setBranch(branch);
+				employeeDao.saveEmployee(employee);
+				branchDao.updateBranch(branch);
+				//assignEmpToBranch(employee.getEmployeeId(), branchId);
+			}
 			ResponseStructure<String> responseStructure = new ResponseStructure<>();
 			responseStructure.setMessage("Success");
 			responseStructure.setData("new employee is assigned to the branch");
@@ -272,11 +285,11 @@ public class EmployeeService {
 		Employee employee1 = employeeRepository.findById(employee.getEmployeeId())
 				.orElseThrow(() -> new EmployeeNotFoundException("Employee with this ID does not exist"));
 
-		Branch branch = branchRepository.findById(branchId)
+		Branch branch = branchDao.getBranchById(branchId)
 				.orElseThrow(() -> new BranchNotFoundException("branch does not found"));
 
 			branch.setEmployee(employee);
-			branchRepository.save(branch);
+			branchDao.saveBranch(branch);
 			ResponseStructure<String> responseStructure = new ResponseStructure<>();
 			responseStructure.setMessage("Success");
 			responseStructure.setData("Branch employee is updated");
@@ -289,11 +302,11 @@ public class EmployeeService {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new EmployeeNotFoundException("Employee with this ID does not exist"));
 
-		Branch branch = branchRepository.findById(branchId)
+		Branch branch = branchDao.getBranchById(branchId)
 				.orElseThrow(() -> new BranchNotFoundException("branch does not found"));
 
 			branch.setEmployee(null);
-			branchRepository.save(branch);
+			branchDao.saveBranch(branch);
 			deleteEmployee(employee.getEmployeeId());
 			ResponseStructure<String> responseStructure = new ResponseStructure<>();
 			responseStructure.setMessage("Success");

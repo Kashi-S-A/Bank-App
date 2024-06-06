@@ -15,39 +15,41 @@ public class BankDao {
 
 	@Autowired
 	private BankRepository bankRepository;
-	
-	//save bank
+
+	// save bank
 	public Bank saveBank(Bank bank) {
 		return bankRepository.save(bank);
 	}
-	
-	//update bank 
+
+	// update bank
 	public String updateBank(Bank bank) {
-		Bank bank1=bankRepository.findById(bank.getBankId()).orElseThrow(()->new BankNotFound("bank does not exist"));
-			bankRepository.save(bank);
-			return "Bank updated";
+		Bank bank1 = bankRepository.findById(bank.getBankId())
+				.orElseThrow(() -> new BankNotFound("bank does not exist"));
+        bank.setBankAddress(bank1.getBankAddress());
+		bankRepository.save(bank);
+		return "Bank updated";
 	}
-	
-	//get bank by id
+
+	// get bank by id
 	public Optional<Bank> getBankById(int bankId) {
 		return bankRepository.findById(bankId);
 	}
-	
-	//get all banks
-	public List<Bank> getAllBanks(){
+
+	// get all banks
+	public List<Bank> getAllBanks() {
 		return bankRepository.findAll();
 	}
-	
-	//get bank by employee id
+
+	// get bank by employee id
 	public Bank getBankByEmployeeId(int employeeId) {
 		return bankRepository.getBankByEmployeeId(employeeId);
 	}
-	
-	//delete bank by id
+
+	// delete bank by id
 	public String deleteBankById(int bankId) {
-	    Bank bank=bankRepository.findById(bankId).orElseThrow(()->new BankNotFound("Bank not found"));
-			bankRepository.delete(bank);
-			return "Bank is deleted";
+		Bank bank = bankRepository.findById(bankId).orElseThrow(() -> new BankNotFound("Bank not found"));
+		bankRepository.delete(bank);
+		return "Bank is deleted";
 	}
-	
+
 }

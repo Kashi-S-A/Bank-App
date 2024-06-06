@@ -56,7 +56,8 @@ public class BranchService {
 
 	// getbyid
 	public ResponseEntity<ResponseStructure<Branch>> getBranchById(int branchId) {
-		Branch branch = branchDao.getBranchById(branchId).orElseThrow(()->new BranchNotFoundException("Branch does not exist"));
+		Branch branch = branchDao.getBranchById(branchId)
+				.orElseThrow(() -> new BranchNotFoundException("Branch does not exist"));
 		if (branch != null) {
 			ResponseStructure<Branch> responseStructure = new ResponseStructure<>();
 			responseStructure.setData(branch);
@@ -94,13 +95,14 @@ public class BranchService {
 
 	// get by bank id
 	public ResponseEntity<ResponseStructure<List<Branch>>> getAllBranchsByBankId(int bankId) {
-		Bank bank = bankDao.getBankById(bankId).orElseThrow(()->new BankNotFound("Bank not found to gett all branches"));
-			List<Branch> branchs = branchDao.getAllBranchsByBankId(bankId);
-			ResponseStructure<List<Branch>> responseStructure = new ResponseStructure<>();
-			responseStructure.setData(branchs);
-			responseStructure.setMessage("success");
-			responseStructure.setStatusCode(HttpStatus.OK.value());
-			return new ResponseEntity<ResponseStructure<List<Branch>>>(responseStructure, HttpStatus.OK);
+		Bank bank = bankDao.getBankById(bankId)
+				.orElseThrow(() -> new BankNotFound("Bank not found to gett all branches"));
+		List<Branch> branchs = branchDao.getAllBranchsByBankId(bankId);
+		ResponseStructure<List<Branch>> responseStructure = new ResponseStructure<>();
+		responseStructure.setData(branchs);
+		responseStructure.setMessage("success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		return new ResponseEntity<ResponseStructure<List<Branch>>>(responseStructure, HttpStatus.OK);
 	}
 
 	/*------------------------------------------------------------*/
@@ -126,14 +128,13 @@ public class BranchService {
 		 * branch.getBranchId(); }
 		 */
 		// cz single employee cannot work for more than one entity
-
+//		List<Branch> branchs =  getAllBranchs();
+//		if (!(branchs.contains(branch))) {
+//			branchs.add(branch);
+// bank.setBranchs(branchs);
+// }
 		branch.setBank(bank);
-
-		List<Branch> branchs = (List<Branch>) getAllBranchs();
-		if (!(branchs.contains(branch))) {
-			branchs.add(branch);
-			bank.setBranchs(branchs);
-		}
+		bank.getBranchs().add(branch);
 		ResponseStructure<String> responseStructure = new ResponseStructure<>();
 		try {
 			bankRepository.save(bank);
@@ -201,7 +202,8 @@ public class BranchService {
 		Bank bank = bankRepository.findById(bankId)
 				.orElseThrow(() -> new BranchNotFoundException("Bank does not exist"));
 		ResponseStructure<String> responseStructure = new ResponseStructure<>();
-		if (branch.getBank().getBankId() == bank.getBankId()) {
+		if (branch.getBank()!=null && branch.getBank().getBankId() == bank.getBankId()) {
+			
 			deleteBranchById(branchId);
 			responseStructure.setData("branch is removed from the bank");
 			responseStructure.setMessage("success");
@@ -210,9 +212,9 @@ public class BranchService {
 		} else {
 			responseStructure.setData("branch is not associated with this bank");
 			responseStructure.setMessage("failed");
-			responseStructure.setStatusCode(HttpStatus.NO_CONTENT.value());
-			return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NO_CONTENT);
+			responseStructure.setStatusCode(HttpStatus.OK.value());
+			return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
 		}
 	}
-	
+
 }

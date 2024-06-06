@@ -43,6 +43,7 @@ public class Branch {
 	private long branchPhoneNumber;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Employee employee;
 	
 	@ManyToOne(cascade = CascadeType.ALL)

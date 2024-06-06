@@ -56,7 +56,7 @@ public class EmployeeController {
 
 	// get emp by id
 	@GetMapping("/getemployee/{employeeId}")
-	public ResponseEntity<ResponseStructure<Employee>> getEmployeeById(@PathVariable String employeeId) {
+	public ResponseEntity<ResponseStructure<Employee>> getEmployeeById(@PathVariable int employeeId) {
 		return employeeService.getEmployeeById(employeeId);
 	}
 
