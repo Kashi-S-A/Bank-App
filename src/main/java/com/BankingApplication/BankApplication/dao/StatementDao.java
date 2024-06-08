@@ -27,7 +27,7 @@ public class StatementDao {
 	}
 	
 	//get all
-	public List<Statement> getAllStatements(int accountNumber){
+	public List<Statement> getAllStatements(long accountNumber){
 		return statementRespository.getAllStatements(accountNumber);
 	}
 	

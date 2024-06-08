@@ -21,6 +21,7 @@ public class BankService {
 	// save
 	public ResponseEntity<ResponseStructure<Bank>> saveBank(Bank bank) {
 		Bank bank1 = bankDao.saveBank(bank);
+		List<Bank> banks=bankDao.getAllBanks();
 		if (bank1 != null) {
 			ResponseStructure<Bank> responseStructure = new ResponseStructure<>();
 			responseStructure.setData(bank1);
@@ -33,8 +34,8 @@ public class BankService {
 	}
 
 	// update
-	public ResponseEntity<ResponseStructure<String>> updateBank(Bank bank) {
-		String recieved = bankDao.updateBank(bank);
+	public ResponseEntity<ResponseStructure<String>> updateBank(int bankId,String bankName) {
+		String recieved = bankDao.updateBank(bankId,bankName);
 		ResponseStructure<String> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(recieved);
 		responseStructure.setMessage("Success");

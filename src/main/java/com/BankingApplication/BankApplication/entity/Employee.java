@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +40,6 @@ public class Employee {
 	
 	private String gender;
 
-	@CreationTimestamp
 	private Date dateOfBirth;
 
 	@CreationTimestamp
@@ -53,6 +54,7 @@ public class Employee {
 	private Status status;
 	
 	@OneToOne
+	@JsonIgnore
 	private Bank bank;
 	
 	@OneToOne

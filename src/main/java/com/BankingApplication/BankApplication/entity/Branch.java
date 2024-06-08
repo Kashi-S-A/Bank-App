@@ -46,10 +46,10 @@ public class Branch {
 	private Employee employee;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JsonIgnore
 	private Bank bank;
 	
 	@OneToMany
+	@JsonIgnore
 	private List<Account> accounts;
 	
 }

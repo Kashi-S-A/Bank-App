@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.BankingApplication.BankApplication.entity.Account;
 import com.BankingApplication.BankApplication.entity.Bank;
 import com.BankingApplication.BankApplication.entity.Branch;
 import com.BankingApplication.BankApplication.exception.BranchNotFoundException;
+import com.BankingApplication.BankApplication.repository.AccountRepository;
 import com.BankingApplication.BankApplication.repository.BankRepository;
 import com.BankingApplication.BankApplication.repository.BranchRepository;
 
@@ -20,6 +22,9 @@ public class BranchDao {
 
 	@Autowired
 	private BankRepository bankRepository;
+	
+	@Autowired
+	private AccountRepository accountRepository;
 
 	// save branch
 	public Branch saveBranch(Branch branch) {
@@ -27,9 +32,10 @@ public class BranchDao {
 	}
 
 	// update branch
-	public String updateBranch(Branch branch) {
-		Branch branch1 = branchRepository.findById(branch.getBranchId())
+	public String updateBranch(int branchId,String branchName) {
+		Branch branch = branchRepository.findById(branchId)
 				.orElseThrow(() -> new BranchNotFoundException("Branch Does not exist"));
+		branch.setBranchName(branchName);
 		branchRepository.save(branch);
 		return "branch updated";
 	}
@@ -57,7 +63,13 @@ public class BranchDao {
 				bank.setBranchs(branchs);
 				bankRepository.save(bank);
 			}
-
+            List<Account> accounts=branch.getAccounts();
+            if (!accounts.isEmpty()) {
+				for (Account account : accounts) {
+					account.setBranch(null);
+					accountRepository.save(account);
+				}
+			}
 			// removing bank from the branch
 			branch.setBank(null);
 			branch.setEmployee(null);

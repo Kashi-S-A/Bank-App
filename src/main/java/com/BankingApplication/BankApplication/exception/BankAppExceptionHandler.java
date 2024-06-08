@@ -1,5 +1,6 @@
 package com.BankingApplication.BankApplication.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -62,4 +63,14 @@ public class BankAppExceptionHandler extends ResponseEntityExceptionHandler{
 		responseStructure.setData(exception.getMessage());
 		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.OK);
 	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<ResponseStructure<String>> catchDataIntegrityViolationException(DataIntegrityViolationException exception){
+		ResponseStructure<String> responseStructure=new ResponseStructure<>();
+		responseStructure.setMessage("Already present");
+		responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		responseStructure.setData(exception.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.OK);
+	}
+	
 }

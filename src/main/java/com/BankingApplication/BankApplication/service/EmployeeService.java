@@ -119,7 +119,7 @@ public class EmployeeService {
 		responseStructure.setStatusCode(HttpStatus.NO_CONTENT.value());
 		responseStructure.setMessage("Success");
 		responseStructure.setData(recieved);
-		return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
 
 	}
 
@@ -164,16 +164,18 @@ public class EmployeeService {
 	}
 
 	// assign new employee to the bank
-	public ResponseEntity<ResponseStructure<String>> assignNewBankEmployee(int bankId, Employee employee) {
+	public ResponseEntity<ResponseStructure<Employee>> assignNewBankEmployee(int bankId, Employee employee) {
 		Bank bank = bankRepository.findById(bankId).orElseThrow(() -> new BankNotFound("Bank does not found"));
 		bank.setEmployee(employee);
+		employee.setBank(bank);
+		saveEmployee(employee);
 		bankRepository.save(bank);
-		ResponseStructure<String> responseStructure = new ResponseStructure<>();
-		responseStructure.setData("new emp is assigned to the bank with id " + bank.getBankId());
+		ResponseStructure<Employee> responseStructure = new ResponseStructure<>();
+		responseStructure.setData(employee);
 		responseStructure.setMessage("success");
 		responseStructure.setStatusCode(HttpStatus.OK.value());
 
-		return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
+		return new ResponseEntity<ResponseStructure<Employee>>(responseStructure, HttpStatus.OK);
 	}
 
 	// update employee in the bank
@@ -247,13 +249,14 @@ public class EmployeeService {
 	}
 
 	// assign new employee to the branch
-	public ResponseEntity<ResponseStructure<String>> assignNewEmployeeToBranch(int branchId, Employee employee) {
+	public ResponseEntity<ResponseStructure<Employee>> assignNewEmployeeToBranch(int branchId, Employee employee) {
 		Branch branch = branchDao.getBranchById(branchId).orElseThrow(()->new BranchNotFoundException("branch does not exist"));
+		deleteEmployee(branch.getEmployee().getEmployeeId());
 			if (branch.getEmployee()==null) {
 				branch.setEmployee(employee);
 				employee.setBranch(branch);
 				employeeDao.saveEmployee(employee);
-				branchDao.updateBranch(branch);
+				branchDao.saveBranch(branch);
 			} else {
                 Employee employee1= branch.getEmployee();
                 employee1.setBranch(null);
@@ -261,14 +264,14 @@ public class EmployeeService {
                 branch.setEmployee(employee);
 				employee.setBranch(branch);
 				employeeDao.saveEmployee(employee);
-				branchDao.updateBranch(branch);
+				branchDao.saveBranch(branch);
 				//assignEmpToBranch(employee.getEmployeeId(), branchId);
 			}
-			ResponseStructure<String> responseStructure = new ResponseStructure<>();
+			ResponseStructure<Employee> responseStructure = new ResponseStructure<>();
 			responseStructure.setMessage("Success");
-			responseStructure.setData("new employee is assigned to the branch");
+			responseStructure.setData(employee);
 			responseStructure.setStatusCode(HttpStatus.OK.value());
-			return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
+			return new ResponseEntity<ResponseStructure<Employee>>(responseStructure, HttpStatus.OK);
 	}
 
 	// update employee in the branch

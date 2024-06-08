@@ -32,7 +32,7 @@ public class AccountDao {
 	}
 
 	// update Name
-	public String updateName(int accountNumber, String name) {
+	public String updateName(long accountNumber, String name) {
 		Account account = accountRepository.findById(accountNumber)
 				.orElseThrow(() -> new com.BankingApplication.BankApplication.exception.AccountNotFoundException(
 						"account does not exists"));
@@ -42,7 +42,7 @@ public class AccountDao {
 	}
 
 	// update phone
-	public String updatePhone(int accountNumber, long phoneNumber) {
+	public String updatePhone(long accountNumber, long phoneNumber) {
 		Account account = accountRepository.findById(accountNumber)
 				.orElseThrow(() -> new AccountNotFoundException("Account does not exist"));
 		account.setPhoneNumber(phoneNumber);
@@ -51,7 +51,7 @@ public class AccountDao {
 	}
 
 	// get account by id
-	public Account getAccountByAccountNumber(int accountNumber) {
+	public Account getAccountByAccountNumber(long accountNumber) {
 		Account account = accountRepository.findById(accountNumber)
 				.orElseThrow(() -> new AccountNotFoundException("account does not exist"));
 		return account;
@@ -78,7 +78,7 @@ public class AccountDao {
 	}
 
 	// delete account by id
-	public String deleteAccount(int accountNumber) {
+	public String deleteAccount(long accountNumber) {
 		Account account = accountRepository.findById(accountNumber)
 				.orElseThrow(() -> new AccountNotFoundException("account does not exist"));
 		Branch branch = account.getBranch();
@@ -101,7 +101,7 @@ public class AccountDao {
 	}
 
 	// update Name
-	public String updateBalance(int accountNumber, double balance) {
+	public String updateBalance(long accountNumber, double balance) {
 		Account account = accountRepository.findById(accountNumber)
 				.orElseThrow(() -> new com.BankingApplication.BankApplication.exception.AccountNotFoundException(
 						"account does not exists"));
@@ -114,7 +114,7 @@ public class AccountDao {
 	private StatementDao statementDao;
 	
 	//transfer amount to another account
-	public Statement transferAmount(int fromAccountNumber,int toAccountNumber,double amount) {
+	public Statement transferAmount(long fromAccountNumber,long toAccountNumber,double amount) {
 		Account fromAccount=getAccountByAccountNumber(fromAccountNumber);
 		
 		Account toAccount=getAccountByAccountNumber(toAccountNumber);

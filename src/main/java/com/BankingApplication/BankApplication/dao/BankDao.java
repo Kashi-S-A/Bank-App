@@ -18,14 +18,18 @@ public class BankDao {
 
 	// save bank
 	public Bank saveBank(Bank bank) {
-		return bankRepository.save(bank);
+		try {
+			return bankRepository.save(bank);
+		} catch (Exception e) {
+			throw new BankNotFound("Bank is already exist");
+		}
 	}
 
 	// update bank
-	public String updateBank(Bank bank) {
-		Bank bank1 = bankRepository.findById(bank.getBankId())
+	public String updateBank(int bankId,String bankName) {
+		Bank bank = bankRepository.findById(bankId)
 				.orElseThrow(() -> new BankNotFound("bank does not exist"));
-        bank.setBankAddress(bank1.getBankAddress());
+		bank.setBankName(bankName);
 		bankRepository.save(bank);
 		return "Bank updated";
 	}

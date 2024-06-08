@@ -2,15 +2,20 @@ package com.BankingApplication.BankApplication.entity;
 
 import java.util.List;
 
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.descriptor.jdbc.VarbinaryJdbcType;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -38,7 +43,7 @@ public class Account {
 	private String email;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JsonIgnore
+	//@JsonIgnore
 	private Address address;
 	
 	@ManyToOne
@@ -54,4 +59,9 @@ public class Account {
 	@OneToMany
 	@JsonIgnore
 	private List<Statement> statements;
+	
+	@Lob
+	@JdbcType(VarbinaryJdbcType.class)
+	@JsonIgnore
+	private byte[] userProfile;
 }

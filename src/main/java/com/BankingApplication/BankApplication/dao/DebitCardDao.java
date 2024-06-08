@@ -19,7 +19,7 @@ public class DebitCardDao {
 	private AccountDao accountDao;
 
 	// save
-	public DebitCard saveDebitCard(int accountNumber, DebitCard debitCard) {
+	public DebitCard saveDebitCard(long accountNumber, DebitCard debitCard) {
 		Account account = accountDao.getAccountByAccountNumber(accountNumber);
 		account.setDebitCard(debitCard);
 		debitCard.setAccount(account);

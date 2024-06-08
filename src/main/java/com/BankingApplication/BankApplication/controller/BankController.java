@@ -30,9 +30,9 @@ public class BankController {
 	}
 	
 	//update
-	@PutMapping("/updatebank")
-	public ResponseEntity<ResponseStructure<String>> updateBank(@RequestBody Bank bank) {
-		return bankService.updateBank(bank);
+	@PutMapping("/updatebank/bankId/{bankId}")
+	public ResponseEntity<ResponseStructure<String>> updateBank(@PathVariable int bankId,@RequestParam String bankName) {
+		return bankService.updateBank(bankId,bankName);
 	}
 	
 	//get by id

@@ -11,6 +11,6 @@ public class BankNotFound extends RuntimeException{
 
 	@Override
 	public String getMessage() {
-		return "Bank with a given id is not present";
+		return message;
 	}
 }

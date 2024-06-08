@@ -1,11 +1,13 @@
 package com.BankingApplication.BankApplication.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.BankingApplication.BankApplication.dao.AccountDao;
 import com.BankingApplication.BankApplication.dao.BranchDao;
@@ -26,7 +28,7 @@ public class AccountService {
 	private BranchDao branchDao;
 
 	// save
-	public ResponseEntity<ResponseStructure<Account>> saveAccount(int branchId, Account account) {
+	public ResponseEntity<ResponseStructure<Account>> saveAccount(int branchId, Account account) throws IOException {
 		Branch branch = branchDao.getBranchById(branchId)
 				.orElseThrow(() -> new BranchNotFoundException("Branch does not found"));
 		ResponseStructure<Account> responseStructure = new ResponseStructure<>();
@@ -40,7 +42,7 @@ public class AccountService {
 	}
 
 	// update name
-	public ResponseEntity<ResponseStructure<String>> updateName(int accountNumber, String name) {
+	public ResponseEntity<ResponseStructure<String>> updateName(long accountNumber, String name) {
 		String recieved = accountDao.updateName(accountNumber, name);
 		ResponseStructure<String> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(recieved);
@@ -50,7 +52,7 @@ public class AccountService {
 	}
 
 	// update phone
-	public ResponseEntity<ResponseStructure<String>> updatePhone(int accountNumber, long phone) {
+	public ResponseEntity<ResponseStructure<String>> updatePhone(long accountNumber, long phone) {
 		String recieved = accountDao.updatePhone(accountNumber, phone);
 		ResponseStructure<String> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(recieved);
@@ -61,7 +63,7 @@ public class AccountService {
 	}
 
 	// get account
-	public ResponseEntity<ResponseStructure<Account>> getAccountByAccountNumber(int accountNumber) {
+	public ResponseEntity<ResponseStructure<Account>> getAccountByAccountNumber(long accountNumber) {
 		Account account = accountDao.getAccountByAccountNumber(accountNumber);
 		ResponseStructure<Account> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(account);
@@ -105,7 +107,7 @@ public class AccountService {
 	}
 
 	// delete account
-	public ResponseEntity<ResponseStructure<String>> deleteAccount(int accountNumber) {
+	public ResponseEntity<ResponseStructure<String>> deleteAccount(long accountNumber) {
 		String recieved = accountDao.deleteAccount(accountNumber);
 		ResponseStructure<String> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(recieved);
@@ -115,12 +117,12 @@ public class AccountService {
 	}
 
 	// update balance
-	public String updateBalance(int accountNumber, double balance) {
+	public String updateBalance(long accountNumber, double balance) {
 		return accountDao.updateBalance(accountNumber, balance);
 	}
 
 	// transfer amount
-	public ResponseEntity<ResponseStructure<Statement>> transferAmount(int fromAccount, int toAccount, double amount) {
+	public ResponseEntity<ResponseStructure<Statement>> transferAmount(long fromAccount, long toAccount, double amount) {
 		Statement response = accountDao.transferAmount(fromAccount, toAccount, amount);
 		ResponseStructure<Statement> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(response);
@@ -133,12 +135,19 @@ public class AccountService {
 	private StatementDao dao;
 
 	// get all the statements
-	public ResponseEntity<ResponseStructure<List<Statement>>> getAllStatements(int accountNumber) {
+	public ResponseEntity<ResponseStructure<List<Statement>>> getAllStatements(long accountNumber) {
 		List<Statement> statements = dao.getAllStatements(accountNumber);
 		ResponseStructure<List<Statement>> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(statements);
 		responseStructure.setMessage("success");
 		responseStructure.setStatusCode(HttpStatus.OK.value());
 		return new ResponseEntity<ResponseStructure<List<Statement>>>(responseStructure, HttpStatus.OK);
+	}
+	
+	//uploading user profile
+	public Account saveAccountProfile(MultipartFile file ) throws IOException {
+		Account account=new Account();
+		account.setUserProfile(file.getBytes());
+		return null;
 	}
 }

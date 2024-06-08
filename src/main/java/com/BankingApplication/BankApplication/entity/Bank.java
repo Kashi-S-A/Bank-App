@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,12 +28,15 @@ public class Bank {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int bankId;
 	
+	@Column(unique = true)
 	private String bankName;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	//@JsonIgnore
 	private Address bankAddress;
 	
-	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Branch> branchs;
 	
 	@OneToOne(cascade = CascadeType.ALL)

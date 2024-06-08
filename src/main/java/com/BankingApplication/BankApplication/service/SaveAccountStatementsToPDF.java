@@ -1,6 +1,6 @@
 package com.BankingApplication.BankApplication.service;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,9 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Service
 public class SaveAccountStatementsToPDF {
 
@@ -23,9 +26,9 @@ public class SaveAccountStatementsToPDF {
 	@Autowired
 	private StatementDao statementDao;
 	
-	public void saveStatementsToPDF(int accountNumber) throws FileNotFoundException {
+	public void saveStatementsToPDF(HttpServletResponse response,long accountNumber) throws IOException {
 		String path="C:\\Users\\Trainer\\Desktop\\springbootPdf\\AccountStatements"+accountNumber+".pdf";
-		PdfWriter pdfWriter=new PdfWriter(path);
+		PdfWriter pdfWriter=new PdfWriter(response.getOutputStream());
 		PdfDocument pdfDocument=new PdfDocument(pdfWriter);
 		Document document=new Document(pdfDocument);
 		
@@ -50,7 +53,7 @@ public class SaveAccountStatementsToPDF {
 		}
 		
 		document.add(table);
-		
+		//outputStream.write(document.getb);
 		document.close();
 	}
 }

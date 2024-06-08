@@ -21,7 +21,7 @@ public class ExportStatementsExcel {
 	@Autowired
 	private StatementDao dao;
 	
-	public void exportDatExcel(int accountNumber,HttpServletResponse response) throws IOException {
+	public void exportDatExcel(long accountNumber,HttpServletResponse response) throws IOException {
 		
 	    List<Statement> statements=	dao.getAllStatements(accountNumber);
 	    

@@ -17,7 +17,7 @@ public class DebitCardService {
 	private DebitCardDao cardDao;
 	
 	// save
-	public ResponseEntity<ResponseStructure<DebitCard>> saveDebitCard(int accountNumber,DebitCard card) {
+	public ResponseEntity<ResponseStructure<DebitCard>> saveDebitCard(long accountNumber,DebitCard card) {
 		DebitCard card2 = cardDao.saveDebitCard(accountNumber,card);
 		ResponseStructure<DebitCard> responseStructure = new ResponseStructure<>();
 		responseStructure.setData(card2);

@@ -24,17 +24,17 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	// save
-	@PostMapping("/saveemployee")
-	public ResponseEntity<ResponseStructure<Employee>> saveEmployee(@RequestBody Employee employee) {
-		return employeeService.saveEmployee(employee);
-	}
+//	// save
+//	@PostMapping("/saveemployee")
+//	public ResponseEntity<ResponseStructure<Employee>> saveEmployee(@RequestBody Employee employee) {
+//		return employeeService.saveEmployee(employee);
+//	}
 
 	// update
-	@PutMapping("/updateemployee")
-	public ResponseEntity<ResponseStructure<String>> updateEmployee(@RequestBody Employee employee) {
-		return employeeService.updateEmployee(employee);
-	}
+//	@PutMapping("/updateemployee")
+//	public ResponseEntity<ResponseStructure<String>> updateEmployee(@RequestBody Employee employee) {
+//		return employeeService.updateEmployee(employee);
+//	}
 
 	// update employee name by id
 	@PatchMapping("/updateemployeename/employeeId/{employeeId}")
@@ -74,58 +74,58 @@ public class EmployeeController {
 
 	/*--------------------------------------------------------------*/
 
-	// assigning existing employee to the bank
-	@PostMapping("/assignbank/employeeId/{employeeId}")
-	public ResponseEntity<ResponseStructure<String>> assignBank(@PathVariable int employeeId, @RequestParam int bankId) {
-		return employeeService.assignEmpToBankById(employeeId, bankId);
-	}
+//	// assigning existing employee to the bank
+//	@PostMapping("/assignbank/employeeId/{employeeId}")
+//	public ResponseEntity<ResponseStructure<String>> assignBank(@PathVariable int employeeId, @RequestParam int bankId) {
+//		return employeeService.assignEmpToBankById(employeeId, bankId);
+//	}
 
 	// assigning new employee to the bank
 	@PostMapping("/assignnewbankemployee/bankId/{bankId}")
-	public ResponseEntity<ResponseStructure<String>> assigNewBankEmployee(@PathVariable int bankId, @RequestBody Employee employee) {
+	public ResponseEntity<ResponseStructure<Employee>> assigNewBankEmployee(@PathVariable int bankId, @RequestBody Employee employee) {
 		return employeeService.assignNewBankEmployee(bankId, employee);
 	}
 
-	// update employee in the bank//put is to update multiple attributes
-	// if we want to update particular attribute single we need to make us of
-	// pathmapping
-	@PutMapping("/updatebankemployee/bankId/{bankId}")
-	public ResponseEntity<ResponseStructure<String>> updateBankEmployee(@PathVariable int bankId, @RequestBody Employee employee) {
-		return employeeService.updateBankEmployee(bankId, employee);
-	}
-
-	// delete employee from the bank and employee table
-	@DeleteMapping("/deletebankemployee/employeeId/{employeeId}")
-	public ResponseEntity<ResponseStructure<String>> deleteBankEmployee(@PathVariable int employeeId, @RequestParam int bankId) {
-		return employeeService.deleteBankEmployee(employeeId, bankId);
-	}
+//	// update employee in the bank//put is to update multiple attributes
+//	// if we want to update particular attribute single we need to make us of
+//	// pathmapping
+//	@PutMapping("/updatebankemployee/bankId/{bankId}")
+//	public ResponseEntity<ResponseStructure<String>> updateBankEmployee(@PathVariable int bankId, @RequestBody Employee employee) {
+//		return employeeService.updateBankEmployee(bankId, employee);
+//	}
+//
+//	// delete employee from the bank and employee table
+//	@DeleteMapping("/deletebankemployee/employeeId/{employeeId}")
+//	public ResponseEntity<ResponseStructure<String>> deleteBankEmployee(@PathVariable int employeeId, @RequestParam int bankId) {
+//		return employeeService.deleteBankEmployee(employeeId, bankId);
+//	}
 
 	/*---------------------------------------------------------------------*/
 	// assigning employee to the branch
 
-	// assigning existing employee to the branch
-	@PostMapping("/assignbranch/employeeId/{employeeId}")
-	public ResponseEntity<ResponseStructure<String>> assignBranch(@PathVariable int employeeId, @RequestParam int branchId) {
-		return employeeService.assignEmpToBranch(employeeId, branchId);
-	}
+//	// assigning existing employee to the branch
+//	@PostMapping("/assignbranch/employeeId/{employeeId}")
+//	public ResponseEntity<ResponseStructure<String>> assignBranch(@PathVariable int employeeId, @RequestParam int branchId) {
+//		return employeeService.assignEmpToBranch(employeeId, branchId);
+//	}
 
 	// assigning new employee to the branch
 	@PostMapping("/assignnewbranchemployee")
-	public ResponseEntity<ResponseStructure<String>> assigNewBranchEmployee(@RequestParam int branchId, @RequestBody Employee employee) {
+	public ResponseEntity<ResponseStructure<Employee>> assigNewBranchEmployee(@RequestParam int branchId, @RequestBody Employee employee) {
 		return employeeService.assignNewEmployeeToBranch(branchId, employee);
 	}
 
-	// update employee in the branch//put is to update multiple attributes
-	// if we want to update particular attribute single we need to make us of
-	// patchmapping
-	@PutMapping("/updatebranchemployee")
-	public ResponseEntity<ResponseStructure<String>> updateBranchEmployee(@RequestParam int branchId, @RequestBody Employee employee) {
-		return employeeService.updateBranchEmployee(branchId, employee);
-	}
-
-	// delete employee from the branch and employee table
-	@DeleteMapping("/deletebranchemployee/employeeId/{employeeId}")
-	public ResponseEntity<ResponseStructure<String>> deleteBranchEmployee(@PathVariable int employeeId, @RequestParam int branchId) {
-		return employeeService.deleteBranchEmployee(employeeId, branchId);
-	}
+//	// update employee in the branch//put is to update multiple attributes
+//	// if we want to update particular attribute single we need to make us of
+//	// patchmapping
+//	@PutMapping("/updatebranchemployee")
+//	public ResponseEntity<ResponseStructure<String>> updateBranchEmployee(@RequestParam int branchId, @RequestBody Employee employee) {
+//		return employeeService.updateBranchEmployee(branchId, employee);
+//	}
+//
+//	// delete employee from the branch and employee table
+//	@DeleteMapping("/deletebranchemployee/employeeId/{employeeId}")
+//	public ResponseEntity<ResponseStructure<String>> deleteBranchEmployee(@PathVariable int employeeId, @RequestParam int branchId) {
+//		return employeeService.deleteBranchEmployee(employeeId, branchId);
+//	}
 }

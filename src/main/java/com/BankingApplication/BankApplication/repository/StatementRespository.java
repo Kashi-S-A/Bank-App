@@ -10,5 +10,5 @@ import com.BankingApplication.BankApplication.entity.Statement;
 public interface StatementRespository extends JpaRepository<Statement, Integer>{
 
 	@Query("SELECT s FROM Statement s WHERE s.account.accountNumber=:accountNumber")
-	public List<Statement> getAllStatements(int accountNumber);
+	public List<Statement> getAllStatements(long accountNumber);
 }

@@ -24,7 +24,7 @@ public class DebitCardController {
 
 	// save
 	@PostMapping("/savecard/accountNumber/{accountNumber}")
-	public ResponseEntity<ResponseStructure<DebitCard>> saveDebitCard(@PathVariable int accountNumber,@RequestBody DebitCard debitCard) {
+	public ResponseEntity<ResponseStructure<DebitCard>> saveDebitCard(@PathVariable long accountNumber,@RequestBody DebitCard debitCard) {
 		return cardService.saveDebitCard(accountNumber,debitCard);
 	}
 
